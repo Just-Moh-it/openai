@@ -1,10 +1,8 @@
 name: Tweet with OpenAI on Push
-
 on:
   push:
     branches:
       - main
-
 jobs:
   check:
     name: Check trigger
@@ -42,11 +40,11 @@ jobs:
           node-version: 16
 
       - name: OpenAI
-        uses: Just-Moh-it/openai@v0.0.4
+        uses: Just-Moh-it/openai@v0.0.1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           openai-mode: "completion"
-          openai-params: "{\"prompt\": \"Write a description for this git commit: \n${{ github.event.head_commit.message }}\"}"
+          openai-params: '{"prompt": "Write a description for this git commit: \n${{ github.event.head_commit.message }}", "model": "text-daninci-003"}'
         id: openai
 
       - name: Tweet
