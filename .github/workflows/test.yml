@@ -20,7 +20,7 @@ jobs:
         uses: Just-Moh-it/openai@v0.0.5
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          openai-params: '{"prompt":"This is a sample prompt"}'
+          openai-params: '{"prompt":"This is a sample prompt", "model": "text-davinci-003"}'
         id: openai
       - name: Print
         run: |

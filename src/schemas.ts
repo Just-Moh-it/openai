@@ -3,7 +3,7 @@ import { z } from "zod";
 export const modeSchema = z.enum(["chat", "completion"]);
 
 export const completionsSchema = z.object({
-  model: z.string().default("text-davinci-003"),
+  model: z.string(),
   prompt: z.string(),
   suffix: z.string().optional(),
   max_tokens: z.number().optional(),
