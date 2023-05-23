@@ -1,18 +1,8 @@
 import { Configuration, OpenAIApi } from "openai";
 import { getInput, debug, setOutput, setFailed } from "@actions/core";
-import { z } from "zod";
 import { chatSchema, completionsSchema, modeSchema } from "./schemas";
 
-const parseAndValidate = <T>(schema: z.ZodType<T>, value: string): T => {
-  const parsing = schema.safeParse(value);
-
-  if (!parsing.success)
-    throw setFailed(`Error while parsing inputs: ${parsing.error.message}`);
-
-  return parsing.data;
-};
-
-export async function run(): Promise<void> {
+export async function run() {
   try {
     const apiKey = getInput("openai-api-key");
     const configuration = new Configuration({
@@ -20,19 +10,34 @@ export async function run(): Promise<void> {
     });
     const openai = new OpenAIApi(configuration);
 
-    const mode = parseAndValidate(modeSchema, getInput("mode"));
+    const modeSafeParseResult = modeSchema.safeParse(getInput("mode"));
+
+    if (!modeSafeParseResult.success) {
+      setFailed(`Invalid mode: ${modeSafeParseResult.error}`);
+      return;
+    }
+
+    const mode = modeSafeParseResult.data;
 
     debug(`Running in ${mode} mode`);
     debug(`With params: ${JSON.parse(getInput("openai-params"))}`);
 
     switch (mode) {
       case "chat": {
-        const params = parseAndValidate(
-          chatSchema,
+        const paramsSafeParseResult = chatSchema.safeParse(
           JSON.parse(getInput("openai-params"))
         );
 
-        const response = await openai.createChatCompletion(params);
+        if (!paramsSafeParseResult.success) {
+          setFailed(
+            `Invalid params for chat mode: ${paramsSafeParseResult.error}`
+          );
+          return;
+        }
+
+        const response = await openai.createChatCompletion(
+          paramsSafeParseResult.data
+        );
         const completion = response.data.choices[0].message?.content ?? "";
 
         setOutput("completion", completion.trim());
@@ -40,12 +45,20 @@ export async function run(): Promise<void> {
       }
 
       case "completion": {
-        const params = parseAndValidate(
-          completionsSchema,
+        const paramsSafeParseResult = completionsSchema.safeParse(
           JSON.parse(getInput("openai-params"))
         );
 
-        const response = await openai.createCompletion(params);
+        if (!paramsSafeParseResult.success) {
+          setFailed(
+            `Invalid params for chat mode: ${paramsSafeParseResult.error}`
+          );
+          return;
+        }
+
+        const response = await openai.createCompletion(
+          paramsSafeParseResult.data
+        );
         const completion = response.data.choices[0].text ?? "";
 
         // The output of this action is the text from OpenAI trimmed and escaped
