@@ -15042,7 +15042,7 @@ async function run() {
             apiKey,
         });
         const openai = new openai_1.OpenAIApi(configuration);
-        const modeSafeParseResult = schemas_1.modeSchema.safeParse((0, core_1.getInput)("mode"));
+        const modeSafeParseResult = schemas_1.modeSchema.safeParse((0, core_1.getInput)("openai-mode"));
         if (!modeSafeParseResult.success) {
             (0, core_1.setFailed)(`Invalid mode: ${modeSafeParseResult.error}`);
             return;
