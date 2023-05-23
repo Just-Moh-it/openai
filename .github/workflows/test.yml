@@ -20,7 +20,7 @@ jobs:
         uses: Just-Moh-it/openai@v0.0.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          openai-params: "{\"prompt\":\"Write a description for this git commit: ${{github.event.head_commit.message}}\n\"}"
+          openai-params: ${{ toJson('{"prompt":"This is a sample prompt"}') }}
         id: openai
       - name: Print
         run: |

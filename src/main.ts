@@ -27,10 +27,7 @@ export async function run(): Promise<void> {
 
     switch (mode) {
       case "chat": {
-        const params = parseAndValidate(
-          chatSchema,
-          JSON.parse(getInput("openai-params"))
-        );
+        const params = parseAndValidate(chatSchema, getInput("openai-params"));
 
         const response = await openai.createChatCompletion(params);
         const completion = response.data.choices[0].message?.content ?? "";
@@ -42,7 +39,7 @@ export async function run(): Promise<void> {
       case "completion": {
         const params = parseAndValidate(
           completionsSchema,
-          JSON.parse(getInput("openai-params"))
+          getInput("openai-params")
         );
 
         const response = await openai.createCompletion(params);
