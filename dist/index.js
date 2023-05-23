@@ -15053,14 +15053,14 @@ async function run() {
         (0, core_1.debug)(`With params: ${(0, core_1.getInput)("openai-params")}`);
         switch (mode) {
             case "chat": {
-                const params = parseAndValidate(schemas_1.chatSchema, (0, core_1.getInput)("openai-params"));
+                const params = parseAndValidate(schemas_1.chatSchema, JSON.parse((0, core_1.getInput)("openai-params")));
                 const response = await openai.createChatCompletion(params);
                 const completion = response.data.choices[0].message?.content ?? "";
                 (0, core_1.setOutput)("completion", completion.trim());
                 break;
             }
             case "completion": {
-                const params = parseAndValidate(schemas_1.completionsSchema, (0, core_1.getInput)("openai-params"));
+                const params = parseAndValidate(schemas_1.completionsSchema, JSON.parse((0, core_1.getInput)("openai-params")));
                 const response = await openai.createCompletion(params);
                 const completion = response.data.choices[0].text ?? "";
                 // The output of this action is the text from OpenAI trimmed and escaped
