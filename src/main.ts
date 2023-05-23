@@ -10,7 +10,7 @@ export async function run() {
     });
     const openai = new OpenAIApi(configuration);
 
-    const modeSafeParseResult = modeSchema.safeParse(getInput("mode"));
+    const modeSafeParseResult = modeSchema.safeParse(getInput("openai-mode"));
 
     if (!modeSafeParseResult.success) {
       setFailed(`Invalid mode: ${modeSafeParseResult.error}`);
