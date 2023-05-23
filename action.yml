@@ -1,5 +1,5 @@
 name: "OpenAI Completions"
-description: "Use OpenAI to generate responses"
+description: "Use OpenAI to generate responses (Chat+Completions)"
 author: Just-Moh-it
 branding:
   icon: zap
@@ -10,7 +10,7 @@ inputs:
     required: true
   openai-mode:
     description: "To use 'chat' or 'completion' mode"
-    required: true
+    required: false
     default: "completion"
   openai-params:
     description: "Parameters to send to openai's completion nodejs function"
