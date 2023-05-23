@@ -16,5 +16,5 @@ inputs:
     description: "Parameters to send to openai's completion nodejs function"
     required: true
 runs:
-  using: "node18"
+  using: "node16"
   main: "dist/index.js"
