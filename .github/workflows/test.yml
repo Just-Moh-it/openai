@@ -19,6 +19,7 @@ jobs:
         uses: Just-Moh-it/openai@v0.0.1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          openai-mode: "completion"
           openai-params: '{"prompt":"Write a long essay on the following github commit message: ${{ github.event.commits.message}}", "model": "text-davinci-003"}'
         id: openai
       - name: Print

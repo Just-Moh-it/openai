@@ -13,6 +13,7 @@ In your Github Actions workflow, add the following YAML code to utilize the acti
   uses: Just-Moh-it/openai@v0.0.1
   with:
     openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+    openai-mode: "completion"
     openai-params: '{"prompt":"Repeat after me, Hello World: }}", "model": "text-davinci-003"}'
   id: openai
 ```
@@ -22,8 +23,8 @@ In your Github Actions workflow, add the following YAML code to utilize the acti
 The action requires the following inputs:
 
 - `openai-api-key`: Your OpenAI API key. This should be stored as a secret in your GitHub repository. \[**Required: Yes**\]
-- `openai-mode`: The mode of the OpenAI API to use. Can be `completion` or `chat`. \[**Required: No**. _Defaults to completion_\]
-- `openai-params`: A JSON string with parameters to send to the OpenAI API \[**Required: No**. _Defaults to completion_\]. Check out the params here:
+- `openai-mode`: The mode of the OpenAI API to use. Can be `completion` or `chat`. \[**Required: Yes**\]
+- `openai-params`: A JSON string with parameters to send to the OpenAI API \[**Required: Yes**\]. Check out the params here:
   - `completion` mode: [OpenAI API documentation](https://beta.openai.com/docs/api-reference/completions/create) for more information.
   - `chat` mode: [OpenAI API documentation](https://beta.openai.com/docs/api-reference/chat/create) for more information.
 
@@ -63,6 +64,7 @@ jobs:
         uses: Just-Moh-it/openai@v0.0.1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          openai-mode: "completion"
           openai-params: '{"prompt":"Repeat after me, Hello World: }}", "model": "text-davinci-003"}'
         id: openai
       - name: Print

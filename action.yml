@@ -10,7 +10,7 @@ inputs:
     required: true
   openai-mode:
     description: "To use 'chat' or 'completion' mode"
-    required: false
+    required: true
     default: "completion"
   openai-params:
     description: "Parameters to send to openai's completion nodejs function"
