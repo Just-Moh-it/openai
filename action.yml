@@ -1,0 +1,20 @@
+name: "OpenAI Commit"
+description: "Use OpenAI to generate responses"
+author: Just-Moh-it
+branding:
+  icon: zap
+  color: black
+inputs:
+  openai-api-key:
+    description: "Your openai api key"
+    required: true
+  mode:
+    description: "To use 'chat' or 'completion' mode"
+    required: true
+    default: "completion"
+  openai-params:
+    description: "Parameters to send to openai's completion nodejs function"
+    required: true
+runs:
+  using: "node18"
+  main: "dist/index.js"

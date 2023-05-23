@@ -1,0 +1,59 @@
+name: Tweet with OpenAI on Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Check trigger
+    outputs:
+      status: ${{ steps.early.outputs.status }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: early
+        name: Check for trigger keyword
+        run: |
+          status="skip"
+          if grep -q "#openai" "$GITHUB_EVENT_PATH";
+          then
+            status="deploy"
+          fi
+
+          echo "status=$status" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: Deploy
+    needs: check
+    if: needs.check.outputs.status == 'deploy'
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: OpenAI
+        uses: Just-Moh-it/openai-gh-actions@v0.0.1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          openai-mode: "completion"
+          openai-params: "{\"prompt\": \"Write a description for this git commit: \n${{ github.event.head_commit.message }}\"}"
+        id: openai
+
+      - name: Tweet
+        uses: ethomson/send-tweet-action@v1.0.0
+        with:
+          status: "${{ steps.openai.outputs.completion }}"
+          consumer-key: ${{ secrets.TWITTER_CONSUMER_KEY }}
+          consumer-secret: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+          access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
