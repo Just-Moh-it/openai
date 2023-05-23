@@ -8,7 +8,7 @@ In your Github Actions workflow, add the following YAML code to utilize the acti
 
 ```
 - name: OpenAI
-  uses: Just-Moh-it/openai-gh-actions@v0.0.1
+  uses: Just-Moh-it/openai@v0.0.1
   with:
     openai-api-key: ${{ secrets.OPENAI_API_KEY }}
     openai-prompt: <your-prompt>
