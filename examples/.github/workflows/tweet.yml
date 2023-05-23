@@ -42,7 +42,7 @@ jobs:
           node-version: 16
 
       - name: OpenAI
-        uses: Just-Moh-it/openai@v0.0.3
+        uses: Just-Moh-it/openai@v0.0.4
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           openai-mode: "completion"
