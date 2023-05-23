@@ -14813,7 +14813,7 @@ exports.chatSchema = exports.completionsSchema = exports.modeSchema = void 0;
 const zod_1 = __nccwpck_require__(801);
 exports.modeSchema = zod_1.z.enum(["chat", "completion"]);
 exports.completionsSchema = zod_1.z.object({
-    model: zod_1.z.string(),
+    model: zod_1.z.string().default("text-davinci-003"),
     prompt: zod_1.z.string(),
     suffix: zod_1.z.string().optional(),
     max_tokens: zod_1.z.number().optional(),
@@ -14830,7 +14830,7 @@ exports.completionsSchema = zod_1.z.object({
     user: zod_1.z.string().optional(),
 });
 exports.chatSchema = zod_1.z.object({
-    model: zod_1.z.string(),
+    model: zod_1.z.string().default("gpt-3.5-turbo"),
     messages: zod_1.z.array(zod_1.z.object({
         role: zod_1.z.enum(["system", "user", "assistant"]),
         content: zod_1.z.string(),

@@ -3,7 +3,7 @@ import { z } from "zod";
 export const modeSchema = z.enum(["chat", "completion"]);
 
 export const completionsSchema = z.object({
-  model: z.string(),
+  model: z.string().default("text-davinci-003"),
   prompt: z.string(),
   suffix: z.string().optional(),
   max_tokens: z.number().optional(),
@@ -21,7 +21,7 @@ export const completionsSchema = z.object({
 });
 
 export const chatSchema = z.object({
-  model: z.string(),
+  model: z.string().default("gpt-3.5-turbo"),
   messages: z.array(
     z.object({
       role: z.enum(["system", "user", "assistant"]),
